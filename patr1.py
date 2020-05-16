@@ -1,31 +1,17 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from prettytable import PrettyTable
+from creature_Y import creature_Y
 np.random.seed(666)
 
-def creature_Y(n):
-    ksi = list(np.random.random() for _ in range(n))
-    X = list(map(lambda ksi: ksi * (b - a) + a, ksi))
-    Y = list()
-    for xi in X:
-        if xi < -1:
-            Y.append(-2)
-        elif xi <= 1:
-            Y.append(2 * xi)
-        elif xi > 1:
-            Y.append(2)
-    return sorted(Y)
+n = 10000
+Y = creature_Y(n)
 
-n = 100
-Mx = 5
-Dx = 75
-c = 1/30
-b = 20
-a = -10
-
+# Таблица данных
 summin2 = 0
 sum2 = 0
 summid = 0
-Y = creature_Y(n)
+
 for i in Y:
     if i == -2:
         summin2 += 1
@@ -33,13 +19,19 @@ for i in Y:
         sum2 += 1
     else:
         summid += 1
+th = ['Значение', 'Количество']
+td = ['-2', summin2,
+      '(-2, 2)', summid,
+      '2', sum2]
+columns = 2
+table = PrettyTable(th)
+td_data = td[:]
+while td_data:
+    table.add_row(td_data[:columns])
+    td_data = td_data[columns:]
+print(table)
 
-print("Количество -2 = " + summin2.__str__())
-print("Количество центральных элементов = " + summid.__str__())
-print("Количество 2 = " + sum2.__str__())
-
-print(Y)
-
+# График
 fig, ax1,  = plt.subplots(figsize=(16, 9))
 counts_empirically, bins_empirically = np.histogram(Y, bins=n)
 cdf = np.cumsum(counts_empirically / n)
@@ -48,6 +40,10 @@ ax1.set_title('Эмпирическая и теоретическая функц
 ax1.set_ylabel('P')
 ax1.set_xlabel('F(x)')
 ax1.plot([-2, 2, 2], [9/30, 11/30, 1])
-fig.tight_layout()
+fig.tight_layout()  # убираем пустые места
+ax1.grid()          # сетка
+plt.axhline(0, color='black')
 plt.show()
+
+
 
