@@ -7,12 +7,12 @@ np.random.seed(666)
 n = 10000
 eps = n ** -1
 Y = creature_Y(n)
-
+print("Вариационный ряд: ")
+print(Y)
 sum_min8_min4 = 0
 sum_min4_14 = 0
 sum_14_28 = 0
 M = int(n ** 0.5)
-print(Y)
 for i in Y:
     if i == -4:
         sum_min8_min4 += 0.5
@@ -70,5 +70,6 @@ counts_empirically, bins_empirically = np.histogram(Y, bins=n)
 cdf = np.cumsum(counts_empirically / n)
 ax[2].plot(bins_empirically[1:], cdf)
 ax[2].plot([-8, 14, 28, 28], [6/30, 17/30, 24/30, 1])
+
 
 plt.show()
