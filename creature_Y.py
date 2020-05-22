@@ -8,10 +8,10 @@ def creature_Y(n):
     X = list(map(lambda ksi: ksi * (b - a) + a, ksi))
     Y = list()
     for xi in X:
-        if xi < -1:
-            Y.append(-2)
-        elif xi <= 1:
+        if xi < -4:
+            Y.append(-8)
+        elif xi >= -4 and xi <= 14:
             Y.append(2 * xi)
-        elif xi > 1:
-            Y.append(2)
+        elif xi > 14:
+            Y.append(28)
     return sorted(Y)

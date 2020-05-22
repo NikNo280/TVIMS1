@@ -39,7 +39,7 @@ ax1.plot(bins_empirically[1:], cdf)
 ax1.set_title('Эмпирическая и теоретическая функции распределения')
 ax1.set_ylabel('P')
 ax1.set_xlabel('F(x)')
-ax1.plot([-2, 2, 2], [9/30, 11/30, 1])
+ax1.plot([-8, 14, 28, 28], [6/30, 17/30, 24/30, 1])
 fig.tight_layout()  # убираем пустые места
 ax1.grid()          # сетка
 plt.axhline(0, color='black')
