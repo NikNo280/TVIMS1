@@ -13,16 +13,16 @@ sum2 = 0
 summid = 0
 
 for i in Y:
-    if i == -2:
+    if i == -8:
         summin2 += 1
-    elif i == 2:
+    elif i == 28:
         sum2 += 1
     else:
         summid += 1
 th = ['Значение', 'Количество']
-td = ['-2', summin2,
-      '(-2, 2)', summid,
-      '2', sum2]
+td = ['-8', summin2,
+      '(-8, 28)', summid,
+      '28', sum2]
 columns = 2
 table = PrettyTable(th)
 td_data = td[:]

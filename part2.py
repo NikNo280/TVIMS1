@@ -8,35 +8,28 @@ n = 10000
 eps = n ** -1
 Y = creature_Y(n)
 
-sum_mintwo_minone = 0
-sum_minone_zero = 0
-sum_zero_one = 0
-sum_one_two = 0
+sum_min8_min4 = 0
+sum_min4_14 = 0
+sum_14_28 = 0
 M = int(n ** 0.5)
+print(Y)
 for i in Y:
-    if i == -1:
-        sum_mintwo_minone += 0.5
-        sum_minone_zero += 0.5
-    elif i == 0:
-        sum_minone_zero += 0.5
-        sum_zero_one += 0.5
-    elif i == 1:
-        sum_zero_one += 0.5
-        sum_one_two += 0.5
-    elif i >= -2 and i < -1:
-        sum_mintwo_minone += 1
-    elif i > -1 and i < 0:
-        sum_minone_zero += 1
-    elif i > 0 and i < 1:
-        sum_zero_one += 1
-    elif i > 1 and i <= 2:
-        sum_one_two += 1
-
+    if i == -4:
+        sum_min8_min4 += 0.5
+        sum_min4_14 += 0.5
+    elif i == 14:
+        sum_min4_14 += 0.5
+        sum_14_28 += 0.5
+    elif i >= -8 and i < -4:
+        sum_min8_min4 += 1
+    elif i > -4 and i < 14:
+        sum_min4_14 += 1
+    elif i > 14 and i <= 28:
+        sum_14_28 += 1
 th = ['Значение', 'Количество']
-td = ['[-2, -1)', sum_mintwo_minone,
-      '(-1, 0)', sum_minone_zero,
-      '(0, 1)', sum_zero_one,
-      '(1, 2]', sum_one_two]
+td = ['[-8, -4)', sum_min8_min4,
+      '(-4, 14)', sum_min4_14,
+      '(14, 28]', sum_14_28]
 columns = 2
 table = PrettyTable(th)
 td_data = td[:]
