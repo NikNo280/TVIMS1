@@ -39,12 +39,6 @@ while td_data:
 print(table)
 
 # График
-
-x1 = np.arange(-2, -1.9)
-y1 = np.random.randint(1, 20, size = 7)
-x2 = np.arange(1, 101)
-y2 = np.random.randint(1, 20, size = 100)
-
 fig, ax = plt.subplots(3, 1, figsize=(16, 9))
 
 fig.set_facecolor('floralwhite')
