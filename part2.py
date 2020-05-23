@@ -78,6 +78,6 @@ ax[2].plot(bins_empirically[1:], cdf)
 ax[2].plot([-8, 28, 28], [6/30, 24/30, 1])
 ax[1].plot(poligon_point_2, poligon_h_2, color='black')
 
-ax[3].plot([-8, -8, 28, 28], [1/5, 1/70, 1/70, 1/5])
+ax[3].plot([-8, -8, 28, 28], [1/5, 1/60, 1/60, 1/5])
 ax[3].plot(poligon_point, poligon_h, color='black')
 plt.show()
