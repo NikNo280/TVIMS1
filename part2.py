@@ -45,32 +45,50 @@ fig.set_facecolor('floralwhite')
 h = (Y[-1] - Y[0]) / M
 A = Y[0]
 B = A + h
-temp_sum = 0
+temp_sum_1 = 0
+temp_sum_2 = 0
 poligon_point = list()
 poligon_h = list()
-for _ in range(0, M):
-    for y in Y:
-        if A <= y and y <= B + eps:
-            temp_sum += 1
-    ax[0].bar((A + B) / 2, temp_sum/n, width=h)
-    poligon_point.append((A + B) / 2)
-    poligon_h.append(temp_sum/n)
-    temp_sum = 0
-    A = B
-    B += h
 
+for i in Y:
+    if A <= i and i < B:
+        temp_sum_1 += 1
+    elif i == B and i != 28:
+        temp_sum_1 += 0.5
+        temp_sum_2 += 0.5
+    elif i == B and i == 28:
+        temp_sum_1 += 1
+    elif i > B:
+        ax[0].bar((A + B) / 2, temp_sum_1 / n, width=h)
+        poligon_point.append((A + B) / 2)
+        poligon_h.append(temp_sum_1 / n)
+        temp_sum_1 = temp_sum_2
+        temp_sum_2 += 0
+        if A <= i and i < B + eps:
+            temp_sum_1 += 1
+        if i == B:
+            temp_sum_1 += 0.5
+            temp_sum_2 += 0.5
+        A = B
+        B += h
+        B = round(B, 8)
+ax[0].bar((A + B) / 2, temp_sum_1 / n, width=h)
+poligon_point.append((A + B) / 2)
+poligon_h.append(temp_sum_1 / n)
 ax[0].plot(poligon_point, poligon_h, color='black')
 
 m = int(n / 4)
 poligon_point_2 = list()
 poligon_h_2 = list()
-for i in range(0, 3):
-    ax[1].bar((Y[(i+1)*m] + Y[i*m]) / 2, m /(n * (Y[(i+1)*m] - Y[i*m])), width=Y[(i+1)*m] - Y[i*m])
-    poligon_point_2.append((Y[(i+1)*m] + Y[i*m]) / 2)
-    poligon_h_2.append(m /(n * (Y[(i+1)*m] - Y[i*m])))
-ax[1].bar((Y[n - 1] + Y[7499]) / 2, m /(n * (Y[n - 1] - Y[7499])), width=Y[n - 1] - Y[7499])
-poligon_point_2.append((Y[n - 1] + Y[7499]) / 2)
-poligon_h_2.append(m /(n * (Y[n - 1] - Y[7499])))
+for i in range(0, 4):
+    if i == 0:
+        ax[1].bar((Y[(i+1)*m - 1] + Y[i*m]) / 2, m /(n * (Y[(i+1)*m - 1] - Y[i*m])), width=Y[(i+1)*m - 1] - Y[i*m])
+        poligon_point_2.append((Y[(i+1)*m - 1] + Y[i*m]) / 2)
+        poligon_h_2.append(m /(n * (Y[(i+1)*m - 1] - Y[i*m])))
+    else:
+        ax[1].bar((Y[(i + 1) * m - 1] + Y[i * m - 1]) / 2, m / (n * (Y[(i + 1) * m - 1] - Y[i * m])), width=Y[(i + 1) * m - 1] - Y[i * m])
+        poligon_point_2.append((Y[(i + 1) * m - 1] + Y[i * m - 1]) / 2)
+        poligon_h_2.append(m / (n * (Y[(i + 1) * m - 1] - Y[i * m - 1])))
 
 counts_empirically, bins_empirically = np.histogram(Y, bins=n)
 cdf = np.cumsum(counts_empirically / n)
