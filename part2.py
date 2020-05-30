@@ -1,47 +1,34 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from prettytable import PrettyTable
-from creature_Y import creature_Y
+import scipy.stats
+from creature_Y import get_Y
 np.random.seed(666)
 
-n = 10000
-eps = n ** -1
-Y = creature_Y(n)
+n = 500
+Y = get_Y(n)
 print("Вариационный ряд: ")
 print(Y)
-sum_min8_min4 = 0
-sum_min4_14 = 0
-sum_14_28 = 0
-M = int(n ** 0.5)
-for i in Y:
-    if i == -4:
-        sum_min8_min4 += 0.5
-        sum_min4_14 += 0.5
-    elif i == 14:
-        sum_min4_14 += 0.5
-        sum_14_28 += 0.5
-    elif i >= -8 and i < -4:
-        sum_min8_min4 += 1
-    elif i > -4 and i < 14:
-        sum_min4_14 += 1
-    elif i > 14 and i <= 28:
-        sum_14_28 += 1
-th = ['Значение', 'Количество']
-td = ['[-8, -4)', sum_min8_min4,
-      '(-4, 14)', sum_min4_14,
-      '(14, 28]', sum_14_28]
-columns = 2
-table = PrettyTable(th)
-td_data = td[:]
-while td_data:
-    table.add_row(td_data[:columns])
-    td_data = td_data[columns:]
-print(table)
 
-# График
 fig, ax = plt.subplots(4, 1, figsize=(16, 9))
-
 fig.set_facecolor('floralwhite')
+
+
+
+counts_empirically, bins_empirically = np.histogram(Y, bins=n)
+cdf = np.cumsum(counts_empirically / n)
+ax[0].plot(bins_empirically[1:], cdf, color='r', label='Эмпирическая функция распределения')
+ax[0].plot([-1.5, -1], [0, 0], color='r')
+ax[0].plot([1, 1.5], [1, 1], color='r')
+
+x_theoretical = np.linspace(-1 ** (1/3), 1 ** (1/3), 100)
+y_theoretical = (x_theoretical ** 3 + 1) / 2
+ax[0].plot(x_theoretical, y_theoretical, color='blue', label='Теоретическая функция распределения')
+ax[0].legend()
+
+if n <= 100:
+    M = int(np.sqrt(n))
+else:
+    M = int(4 * np.log10(n))
 h = (Y[-1] - Y[0]) / M
 A = Y[0]
 B = A + h
@@ -50,54 +37,51 @@ temp_sum_2 = 0
 poligon_point = list()
 poligon_h = list()
 
-for i in Y:
-    if A <= i and i < B:
+for yi in Y:
+    if A <= yi and yi < B:
         temp_sum_1 += 1
-    elif i == B and i != 28:
+    elif yi == B:
         temp_sum_1 += 0.5
         temp_sum_2 += 0.5
-    elif i == B and i == 28:
-        temp_sum_1 += 1
-    elif i > B:
-        ax[0].bar((A + B) / 2, temp_sum_1 / n, width=h)
+    else:
+        ax[1].bar((A + B) / 2, temp_sum_1 / (n * h), width=h)
         poligon_point.append((A + B) / 2)
-        poligon_h.append(temp_sum_1 / n)
+        poligon_h.append(temp_sum_1 / (n * h))
         temp_sum_1 = temp_sum_2
         temp_sum_2 += 0
-        if A <= i and i < B + eps:
-            temp_sum_1 += 1
-        if i == B:
-            temp_sum_1 += 0.5
-            temp_sum_2 += 0.5
         A = B
         B += h
         B = round(B, 8)
-ax[0].bar((A + B) / 2, temp_sum_1 / n, width=h)
-poligon_point.append((A + B) / 2)
-poligon_h.append(temp_sum_1 / n)
-ax[0].plot(poligon_point, poligon_h, color='black')
+        if A <= yi and yi < B:
+            temp_sum_1 += 1
+        if yi == B:
+            temp_sum_1 += 0.5
+            temp_sum_2 += 0.5
+ax[1].plot(poligon_point, poligon_h, color='black')
 
-m = int(n / 4)
+m = n // M
 poligon_point_2 = list()
 poligon_h_2 = list()
-for i in range(0, 4):
-    if i == 0:
-        ax[1].bar((Y[(i+1)*m - 1] + Y[i*m]) / 2, m /(n * (Y[(i+1)*m - 1] - Y[i*m])), width=Y[(i+1)*m - 1] - Y[i*m])
-        poligon_point_2.append((Y[(i+1)*m - 1] + Y[i*m]) / 2)
-        poligon_h_2.append(m /(n * (Y[(i+1)*m - 1] - Y[i*m])))
-    else:
-        ax[1].bar((Y[(i + 1) * m - 1] + Y[i * m - 1]) / 2, m / (n * (Y[(i + 1) * m - 1] - Y[i * m])), width=Y[(i + 1) * m - 1] - Y[i * m])
-        poligon_point_2.append((Y[(i + 1) * m - 1] + Y[i * m - 1]) / 2)
-        poligon_h_2.append(m / (n * (Y[(i + 1) * m - 1] - Y[i * m - 1])))
+A = np.zeros(M)
+B = np.zeros(M)
+A[0] = Y[0]
+B[-1] = Y[-1]
+for yi in range(1, M):
+    A[yi] = (Y[m * yi] + Y[m * yi + 1]) / 2
+    B[yi - 1] = A[yi]
 
-counts_empirically, bins_empirically = np.histogram(Y, bins=n)
-cdf = np.cumsum(counts_empirically / n)
-ax[2].plot(bins_empirically[1:], cdf)
-ax[2].plot([-8, 28], [6/30, 24/30], 'r', [28, 30], [1, 1], color='r')
-ax[2].plot([-10, -8], [0, 0], 'r', [-8], [0], 'o', color='r')
-ax[2].plot([28], [24/30], 'o', color='r')
-ax[1].plot(poligon_point_2, poligon_h_2, color='black')
-
-ax[3].plot([-8, -8, 28, 28], [1/5, 1/60, 1/60, 1/5])
-ax[3].plot(poligon_point, poligon_h, color='black')
+for yi in range(M):
+    ax[2].bar((A[yi] + B[yi]) / 2,
+              m / (n * (B[yi] - A[yi])),
+              width=B[yi] - A[yi])
+    poligon_point_2.append((A[yi] + B[yi]) / 2)
+    poligon_h_2.append(m / (n * (B[yi] - A[yi])))
+ax[2].plot(poligon_point_2, poligon_h_2, color='black')
+f_y = list()
+for xi in x_theoretical:
+    f_y.append(3/2*xi**2)
+ax[3].plot(x_theoretical, f_y, color='blue', label='Теоретическая плотность распределения')
+ax[3].plot(poligon_point, poligon_h, color='r', label='Эмпирическая плотность распределения')
+ax[3].legend()
 plt.show()
+

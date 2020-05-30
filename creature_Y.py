@@ -1,17 +1,16 @@
 import numpy as np
 
-b = 20
-a = -10
+b = 1
+a = -1
 
-def creature_Y(n):
+def get_Y(n):
     ksi = list(np.random.random() for _ in range(n))
     X = list(map(lambda ksi: ksi * (b - a) + a, ksi))
     Y = list()
     for xi in X:
-        if xi < -4:
-            Y.append(-8)
-        elif xi >= -4 and xi <= 14:
-            Y.append(2 * xi)
-        elif xi > 14:
-            Y.append(28)
+        if xi < 0:
+            Y.append(-(abs(xi) ** (1 / 3)))
+        else:
+            Y.append(xi ** (1 / 3))
     return sorted(Y)
+
