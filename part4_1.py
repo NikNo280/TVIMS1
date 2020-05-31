@@ -1,45 +1,56 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.integrate as integrate
-from creature_Y import creature_Y
+from creature_Y import get_Y
+import scipy.stats as sts
 np.random.seed(666)
 
-n = 20
-Y = creature_Y(n)
-print("Вариационный ряд: ")
-print(Y)
 
-My = sum(Y) / n
-print('My = ', My)
-
-Dy = 0
-for y in Y:
-    Dy += (y - My) ** 2
-Dy = Dy / (n - 1)
-print('Dy = ', Dy)
-
-T = [1.73, 2.093, 2.861] #significance level 0.9 0.95 0.99
-intervals = []
-for t in T:
-    intervals.append((My - np.sqrt(Dy) * t / np.sqrt(n - 1), My + np.sqrt(Dy) * t / np.sqrt(n - 1)))
-
-print(intervals)
+D_theoretical = integrate.quad(lambda x: (x ** 2), -1, 1)[0] - \
+                (integrate.quad(lambda x: x, -1, 1))[0]
+print("D (theoretical) = ", D_theoretical)
 
 gamma = [0.9, 0.95, 0.99]
-plt.plot(gamma, [interval[1] - interval[0] for interval in intervals])
-plt.xlabel("$\gamma$")
-plt.ylabel("Interval value")
-plt.show()
-#todo
-Disp_teor = integrate.quad(lambda x: (x ** 4)/2, -(4)**(1/3), 2**(1/3))[0] - \
-(integrate.quad(lambda x: (x ** 3)/2, -(4)**(1/3), 2**(1/3)))[0]**2
-print("D (theoretical) = ", Disp_teor)
+N = [20, 30, 50, 70, 100, 150]
 
-intervals2 = []
-for t in T:
-    intervals2.append((My - np.sqrt(Disp_teor) * t / np.sqrt(n - 1), My + np.sqrt(Disp_teor) * t / np.sqrt(n - 1)))
-print(intervals2)
-plt.plot(gamma, [interval[1] - interval[0] for interval in intervals2])
-plt.xlabel("$\gamma$")
-plt.ylabel("Interval value")
-plt.show()
+all_intervals = list()
+for ni in N:
+    intervals = []
+    intervals2 = []
+    T = []
+    Y = get_Y(ni)
+    print("Вариационный ряд: ")
+    print(Y)
+
+    My = sum(Y) / ni
+    print('My = ', My)
+
+    Dy = 0
+    for y in Y:
+        Dy += (y - My) ** 2
+    Dy = Dy / (ni - 1)
+    print('Dy = ', Dy)
+
+    t_rv = sts.t(ni - 1)
+    arr = t_rv.rvs(1000000)
+    for i in gamma:
+        tmp = sts.mstats.mquantiles(arr, prob=[1 - (1 - i) / 2])
+        T.append(tmp[0])
+
+    for ti in T:
+        intervals.append((My - np.sqrt(Dy) * ti / np.sqrt(ni - 1),
+                          My + np.sqrt(Dy) * ti / np.sqrt(ni - 1)))
+        intervals2.append((My - np.sqrt(D_theoretical) * ti / np.sqrt(ni - 1),
+                           My + np.sqrt(D_theoretical) * ti / np.sqrt(ni - 1)))
+    print(intervals)
+    print(intervals2)
+    all_intervals.append(intervals2)
+    plt.plot(gamma, [interval[1] - interval[0] for interval in intervals], color='r')
+    plt.plot(gamma, [interval[1] - interval[0] for interval in intervals2], color='blue')
+    title = 'n = ' + ni.__str__() + ' M = ' + My.__str__() + ' D = ' + Dy.__str__()
+    plt.title(title)
+    plt.show()
+
+for i in range(0, 3):
+    plt.plot(N, [(interval[i][1] - interval[i][0]) for interval in all_intervals])
+    plt.show()

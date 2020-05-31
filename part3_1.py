@@ -42,7 +42,7 @@ for yi in Y:
             temp_sum_1 += 0.5
             temp_sum_2 += 0.5
 plt.plot(poligon_point, poligon_h, color='black')
-x_theoretical = np.linspace(-1 ** (1/3), 1 ** (1/3), M)
+x_theoretical = np.linspace(-1, 1, M)
 f_y = list()
 for xi in x_theoretical:
     f_y.append(3/2*xi**2)

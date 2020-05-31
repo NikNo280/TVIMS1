@@ -16,7 +16,7 @@ plt.plot(bins_empirically[1:], cdf, color='r', label='Эмпирическая �
 plt.plot([-1.5, -1], [0, 0], color='r')
 plt.plot([1, 1.5], [1, 1], color='r')
 
-x_theoretical = np.linspace(-1 ** (1/3), 1 ** (1/3), 30)
+x_theoretical = np.linspace(-1, 1, 30)
 y_theoretical = (x_theoretical ** 3 + 1) / 2
 plt.plot(x_theoretical, y_theoretical, color='blue', label='Теоретическая функция распределения')
 plt.legend()
