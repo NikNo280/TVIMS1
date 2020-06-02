@@ -57,7 +57,7 @@ for point in poligon_point:
     f_y_h.append(3/2*point**2)
 
 for i in range(M):
-    my_X_sqrt += (n * (f_y_h[i] - poligon_h[i])**2) / f_y_h[i]
+    my_X_sqrt += (n * (f_y_h[i] - poligon_h[i]) ** 2) / f_y_h[i]
 
 print(my_X_sqrt)
 

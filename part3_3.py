@@ -17,7 +17,7 @@ for i in range(1, n+1):
     my_squared_deviation += ((Fn[i - 1] - F[i - 1]) ** 2)
 my_squared_deviation += 1 / (12 * n)
 
-table_my_squared_deviation = 0.461 # a = 0.05
+table_my_squared_deviation = 0.461# a = 0.05
 if my_squared_deviation > table_my_squared_deviation:
     print(my_squared_deviation.__str__() + " > " + table_my_squared_deviation.__str__() + "\nСледовательно: ")
     print("Выборка не соответствует теоретическому закону распределения по критерию Мизеса")

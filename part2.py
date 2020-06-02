@@ -1,10 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy.stats
 from creature_Y import get_Y
 np.random.seed(666)
 
-n = 500
+n = 64
 Y = get_Y(n)
 print("Вариационный ряд: ")
 print(Y)
@@ -16,7 +15,7 @@ fig.set_facecolor('floralwhite')
 
 counts_empirically, bins_empirically = np.histogram(Y, bins=n)
 cdf = np.cumsum(counts_empirically / n)
-ax[0].plot(bins_empirically[1:], cdf, color='r', label='Эмпирическая функция распределения')
+ax[0].step(bins_empirically[1:], cdf, color='r', label='Эмпирическая функция распределения')
 ax[0].plot([-1.5, -1], [0, 0], color='r')
 ax[0].plot([1, 1.5], [1, 1], color='r')
 
@@ -48,7 +47,7 @@ for yi in Y:
         poligon_point.append((A + B) / 2)
         poligon_h.append(temp_sum_1 / (n * h))
         temp_sum_1 = temp_sum_2
-        temp_sum_2 += 0
+        temp_sum_2 = 0
         A = B
         B += h
         B = round(B, 8)

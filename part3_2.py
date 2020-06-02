@@ -12,7 +12,7 @@ print(Y)
 fig, ax = plt.subplots(1, 1, figsize=(16, 9))
 counts_empirically, bins_empirically = np.histogram(Y, bins=n)
 cdf = np.cumsum(counts_empirically / n)
-plt.plot(bins_empirically[1:], cdf, color='r', label='Эмпирическая функция распределения')
+plt.step(bins_empirically[1:], cdf, color='r', label='Эмпирическая функция распределения')
 plt.plot([-1.5, -1], [0, 0], color='r')
 plt.plot([1, 1.5], [1, 1], color='r')
 
