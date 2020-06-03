@@ -14,3 +14,17 @@ def get_Y(n):
             Y.append(xi ** (1 / 3))
     return sorted(Y)
 
+
+def empiric_func(Y):
+    X = sorted(Y)
+    F_y = list()
+    h = 0
+    for xi in X:
+        h += Y.count(xi)/len(Y)
+        F_y.append(h)
+    return X, F_y
+
+
+
+
+

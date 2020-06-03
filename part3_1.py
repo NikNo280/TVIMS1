@@ -18,46 +18,43 @@ A = Y[0]
 B = A + h
 temp_sum_1 = 0
 temp_sum_2 = 0
-poligon_point = list()
-poligon_h = list()
+polygon_point = list()
+polygon_h = list()
 
-for yi in Y:
-    if A <= yi and yi < B:
-        temp_sum_1 += 1
-    elif yi == B:
-        temp_sum_1 += 0.5
-        temp_sum_2 += 0.5
-    else:
-        plt.bar((A + B) / 2, temp_sum_1 / (n * h), width=h)
-        poligon_point.append((A + B) / 2)
-        poligon_h.append(temp_sum_1 / ( n * h))
-        temp_sum_1 = temp_sum_2
-        temp_sum_2 += 0
-        A = B
-        B += h
-        B = round(B, 8)
+for _ in range(0, M):
+    for yi in Y:
         if A <= yi and yi < B:
             temp_sum_1 += 1
-        if yi == B:
+        elif yi == B:
             temp_sum_1 += 0.5
             temp_sum_2 += 0.5
-plt.plot(poligon_point, poligon_h, color='black')
+    plt.bar((A + B) / 2, temp_sum_1 / (n * h), width=h)
+    polygon_point.append((A + B) / 2)
+    polygon_h.append(temp_sum_1 / (n * h))
+    temp_sum_1 = temp_sum_2
+    temp_sum_2 = 0
+    A = B
+    B += h
+    B = round(B, 8)
+
+plt.plot(polygon_point, polygon_h, color='black')
 x_theoretical = np.linspace(-1, 1, M)
 f_y = list()
 for xi in x_theoretical:
     f_y.append(3/2*xi**2)
 plt.plot(x_theoretical, f_y, color='blue', label='Теоретическая плотность распределения')
-plt.plot(poligon_point, poligon_h, color='r', label='Эмпирическая плотность распределения')
+plt.plot(polygon_point, polygon_h, color='r', label='Эмпирическая плотность распределения')
 
 
 my_X_sqrt = 0
 table_X_sqrt = 20.1 # a = 0,01 k = 8
 f_y_h = list()
-for point in poligon_point:
+for point in polygon_point:
     f_y_h.append(3/2*point**2)
 
 for i in range(M):
-    my_X_sqrt += (n * (f_y_h[i] - poligon_h[i]) ** 2) / f_y_h[i]
+    my_X_sqrt += (n * (f_y_h[i] - polygon_h[i]) ** 2) / f_y_h[i]
+    print(my_X_sqrt)
 
 print(my_X_sqrt)
 
