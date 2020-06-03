@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-from creature_Y import get_Y
+from creature_Y import get_Y, empiric_func
 np.random.seed(666)
 
 
@@ -10,11 +10,12 @@ Y = get_Y(n)
 print("Вариационный ряд: ")
 print(Y)
 fig, ax = plt.subplots(1, 1, figsize=(16, 9))
-counts_empirically, bins_empirically = np.histogram(Y, bins=n)
-cdf = np.cumsum(counts_empirically / n)
-plt.step(bins_empirically[1:], cdf, color='r', label='Эмпирическая функция распределения')
-plt.plot([-1.5, -1], [0, 0], color='r')
-plt.plot([1, 1.5], [1, 1], color='r')
+y = empiric_func(Y)
+plt.step(Y, y, color='r', label='Эмпирическая функция распределения')
+plt.plot([-1.5, Y[0]], [0, 0], color='r')
+plt.plot([Y[-1], 1.5], [1, 1], color='r')
+plt.plot([Y[0], Y[0]], [0, y[1]], color='r')
+
 
 x_theoretical = np.linspace(-1, 1, 30)
 y_theoretical = (x_theoretical ** 3 + 1) / 2
@@ -24,8 +25,8 @@ plt.legend()
 
 max = 0
 for i in range(0, n):
-    if max < math.fabs(y_theoretical[i] - cdf[i]):
-       max = math.fabs(y_theoretical[i] - cdf[i])
+    if max < math.fabs(y_theoretical[i] - y[i]):
+       max = math.fabs(y_theoretical[i] - y[i])
 
 
 table_lambda = 1.36 # a = 0.05

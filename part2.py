@@ -3,7 +3,7 @@ import numpy as np
 from creature_Y import get_Y, empiric_func
 np.random.seed(646)
 
-n = 100
+n = 7
 Y = get_Y(n)
 print("Вариационный ряд: ")
 print(Y)
@@ -13,8 +13,8 @@ fig.set_facecolor('floralwhite')
 
 
 
-x, y = empiric_func(Y)
-ax[0].step(x, y, color='r', label='Эмпирическая функция распределения')
+y = empiric_func(Y)
+ax[0].step(Y, y, color='r', label='Эмпирическая функция распределения')
 ax[0].plot([-1.5, Y[0]], [0, 0], color='r')
 ax[0].plot([Y[-1], 1.5], [1, 1], color='r')
 ax[0].plot([Y[0], Y[0]], [0, y[1]], color='r')
@@ -60,9 +60,11 @@ A = np.zeros(M)
 B = np.zeros(M)
 A[0] = Y[0]
 B[-1] = Y[-1]
+
 for yi in range(1, M):
     A[yi] = (Y[m * yi] + Y[m * yi + 1]) / 2
     B[yi - 1] = A[yi]
+
 for yi in range(M):
     ax[2].bar((A[yi] + B[yi]) / 2,
               m / (n * (B[yi] - A[yi])),

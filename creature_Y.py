@@ -16,13 +16,12 @@ def get_Y(n):
 
 
 def empiric_func(Y):
-    X = sorted(Y)
     F_y = list()
     h = 0
-    for xi in X:
-        h += Y.count(xi)/len(Y)
+    for yi in Y:
+        h += Y.count(yi)/len(Y)
         F_y.append(h)
-    return X, F_y
+    return F_y
 
 
 
