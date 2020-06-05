@@ -3,7 +3,6 @@ import numpy as np
 import scipy.integrate as integrate
 from creature_Y import get_Y
 import scipy.stats as sts
-np.random.seed(666)
 
 
 D_theoretical = integrate.quad(lambda x: (x ** 2), -1, 1)[0] - \
@@ -45,12 +44,13 @@ for ni in N:
     print(intervals)
     print(intervals2)
     all_intervals.append(intervals2)
+
     plt.plot(gamma, [interval[1] - interval[0] for interval in intervals], color='r')
     plt.plot(gamma, [interval[1] - interval[0] for interval in intervals2], color='blue')
     title = 'n = ' + ni.__str__() + ' M = ' + My.__str__() + ' D = ' + Dy.__str__()
     plt.title(title)
     plt.show()
-
+print(all_intervals)
 for i in range(0, 3):
     plt.plot(N, [(interval[i][1] - interval[i][0]) for interval in all_intervals])
     plt.show()

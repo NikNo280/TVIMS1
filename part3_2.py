@@ -5,7 +5,7 @@ from creature_Y import get_Y, empiric_func
 np.random.seed(666)
 
 
-n = 30
+n = 3000
 Y = get_Y(n)
 print("Вариационный ряд: ")
 print(Y)
@@ -17,8 +17,9 @@ plt.plot([Y[-1], 1.5], [1, 1], color='r')
 plt.plot([Y[0], Y[0]], [0, y[1]], color='r')
 
 
-x_theoretical = np.linspace(-1, 1, 30)
+x_theoretical = np.linspace(-1, 1, 3000)
 y_theoretical = (x_theoretical ** 3 + 1) / 2
+plt.plot(x_theoretical, y_theoretical, 'o')
 plt.plot(x_theoretical, y_theoretical, color='blue', label='Теоретическая функция распределения')
 plt.legend()
 

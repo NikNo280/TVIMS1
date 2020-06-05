@@ -3,7 +3,6 @@ import numpy as np
 import scipy.integrate as integrate
 from creature_Y import get_Y
 import scipy.stats as sts
-np.random.seed(666)
 
 gamma = [0.9, 0.95, 0.99]
 N = [20, 30, 50, 70, 100, 150]
@@ -49,6 +48,7 @@ for ni in N:
     plt.title(title)
     plt.show()
 
+print(all_intervals)
 for i in range(0, 3):
     plt.plot(N, [(interval[i][1] - interval[i][0]) for interval in all_intervals])
     plt.show()

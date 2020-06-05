@@ -1,9 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from creature_Y import get_Y, empiric_func
-np.random.seed(646)
 
-n = 7
+n = 1521
 Y = get_Y(n)
 print("Вариационный ряд: ")
 print(Y)
@@ -33,9 +32,9 @@ A = Y[0]
 B = A + h
 temp_sum_1 = 0
 temp_sum_2 = 0
-polygon_point = list()
+x_point = list()
+f_y_h = list()
 polygon_h = list()
-
 for _ in range(0, M):
     for yi in Y:
         if A <= yi and yi < B:
@@ -44,17 +43,24 @@ for _ in range(0, M):
             temp_sum_1 += 0.5
             temp_sum_2 += 0.5
     ax[1].bar((A + B) / 2, temp_sum_1 / (n * h), width=h)
-    polygon_point.append((A + B) / 2)
-    polygon_h.append(temp_sum_1 / (n * h))
+    x_point.append((A + B) / 2)
+    polygon_h.append(temp_sum_1 / n)
+    f_y_h.append(temp_sum_1 / (h * n))
     temp_sum_1 = temp_sum_2
     temp_sum_2 = 0
     A = B
     B += h
     B = round(B, 8)
-ax[1].plot(polygon_point, polygon_h, color='black')
+ax[1].plot(x_point, polygon_h, color='black')
 
+# Delete random element
 m = n // M
-polygon_point_2 = list()
+del_n = n - (M * m)
+for _ in range(0, del_n):
+    temp = np.random.choice(Y)
+    Y.remove(temp)
+
+x_point_2 = list()
 polygon_h_2 = list()
 A = np.zeros(M)
 B = np.zeros(M)
@@ -69,14 +75,14 @@ for yi in range(M):
     ax[2].bar((A[yi] + B[yi]) / 2,
               m / (n * (B[yi] - A[yi])),
               width=B[yi] - A[yi])
-    polygon_point_2.append((A[yi] + B[yi]) / 2)
-    polygon_h_2.append(m / (n * (B[yi] - A[yi])))
-ax[2].plot(polygon_point_2, polygon_h_2, color='black')
+    x_point_2.append((A[yi] + B[yi]) / 2)
+    polygon_h_2.append(m / n)
+ax[2].plot(x_point_2, polygon_h_2, color='black')
 f_y = list()
 for xi in x_theoretical:
     f_y.append(3/2*xi**2)
 ax[3].plot(x_theoretical, f_y, color='blue', label='Теоретическая плотность распределения')
-ax[3].plot(polygon_point, polygon_h, color='r', label='Эмпирическая плотность распределения')
+ax[3].plot(x_point, f_y_h, color='r', label='Эмпирическая плотность распределения')
 ax[3].legend()
 plt.show()
 
