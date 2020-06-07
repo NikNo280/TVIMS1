@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from creature_Y import get_Y
-np.random.seed(666)
-
+np.random.seed(3)
 
 n = 200
 if n <= 100:
@@ -38,7 +37,7 @@ for _ in range(0, M):
     B = round(B, 8)
 
 plt.plot(polygon_point, polygon_h, color='black')
-x_theoretical = np.linspace(-1, 1, M)
+x_theoretical = np.linspace(-1, 1, 3000)
 f_y = list()
 for xi in x_theoretical:
     f_y.append(3/2*xi**2)
@@ -54,7 +53,7 @@ for point in polygon_point:
 
 for i in range(M):
     my_X_sqrt += (n * (f_y_h[i] - polygon_h[i]) ** 2) / f_y_h[i]
-    print(my_X_sqrt)
+
 
 print(my_X_sqrt)
 

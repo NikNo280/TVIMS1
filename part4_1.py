@@ -5,8 +5,8 @@ from creature_Y import get_Y
 import scipy.stats as sts
 
 
-D_theoretical = integrate.quad(lambda x: (x ** 2), -1, 1)[0] - \
-                (integrate.quad(lambda x: x, -1, 1))[0]
+D_theoretical = integrate.quad(lambda x: 1.5 * (x ** 4), -1, 1)[0] - \
+                (integrate.quad(lambda x: 1.5 * (x ** 3), -1, 1))[0]
 print("D (theoretical) = ", D_theoretical)
 
 gamma = [0.9, 0.95, 0.99]
@@ -45,8 +45,8 @@ for ni in N:
     print(intervals2)
     all_intervals.append(intervals2)
 
-    plt.plot(gamma, [interval[1] - interval[0] for interval in intervals], color='r')
     plt.plot(gamma, [interval[1] - interval[0] for interval in intervals2], color='blue')
+    plt.plot(gamma, [interval[1] - interval[0] for interval in intervals], color='r')
     title = 'n = ' + ni.__str__() + ' M = ' + My.__str__() + ' D = ' + Dy.__str__()
     plt.title(title)
     plt.show()

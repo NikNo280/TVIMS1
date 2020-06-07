@@ -7,7 +7,7 @@ import scipy.stats as sts
 gamma = [0.9, 0.95, 0.99]
 N = [20, 30, 50, 70, 100, 150]
 all_intervals = list()
-M_theoretical = integrate.quad(lambda x: (x ** 3), -1, 1)[0]
+M_theoretical = integrate.quad(lambda x: 1.5 * (x ** 3), -1, 1)[0]
 print("M = ", M_theoretical)
 for ni in N:
     intervals = []
