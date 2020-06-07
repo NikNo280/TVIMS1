@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from creature_Y import get_Y, empiric_func
 
-n = 1521
+n = 13500
 Y = get_Y(n)
 print("Вариационный ряд: ")
 print(Y)

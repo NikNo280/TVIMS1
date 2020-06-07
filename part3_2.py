@@ -19,8 +19,9 @@ plt.plot([Y[0], Y[0]], [0, y[1]], color='r')
 y_theoretical = list()
 for yi in Y:
     y_theoretical.append((yi ** 3 + 1) / 2)
-plt.plot(Y, y_theoretical, 'o', label='Теоретическая функция распределения')
-plt.plot(Y, y_theoretical, color='blue', label='Теоретическая функция распределения')
+plt.plot(Y, y_theoretical, 'o', label='Точечная теоретическая функция распределения')
+x_theoretical = np.linspace(-1, 1, 1000)
+plt.plot(x_theoretical, (x_theoretical ** 3 + 1) / 2, color='blue', label='Теоретическая функция распределения')
 plt.legend()
 
 
