@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from creature_Y import get_Y, empiric_func
 
-n = 13500
+n = 135
 Y = get_Y(n)
 print("Вариационный ряд: ")
 print(Y)
@@ -24,9 +24,10 @@ ax[0].plot(x_theoretical, y_theoretical, color='blue', label='Теоретиче
 ax[0].legend()
 
 if n <= 100:
-    M = int(np.sqrt(n))
+    M = int(round(np.sqrt(n)))
 else:
     M = int(4 * np.log10(n))
+
 h = (Y[-1] - Y[0]) / M
 A = Y[0]
 B = A + h

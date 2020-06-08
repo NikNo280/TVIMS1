@@ -37,10 +37,10 @@ for ni in N:
         T.append(tmp[0])
 
     for ti in T:
-        intervals.append((My - np.sqrt(Dy) * ti / np.sqrt(ni - 1),
-                          My + np.sqrt(Dy) * ti / np.sqrt(ni - 1)))
-        intervals2.append((My - np.sqrt(D_theoretical) * ti / np.sqrt(ni - 1),
-                           My + np.sqrt(D_theoretical) * ti / np.sqrt(ni - 1)))
+        intervals.append((My - np.sqrt(Dy) * ti / np.sqrt(ni),
+                          My + np.sqrt(Dy) * ti / np.sqrt(ni)))
+        intervals2.append((My - np.sqrt(D_theoretical) * ti / np.sqrt(ni),
+                           My + np.sqrt(D_theoretical) * ti / np.sqrt(ni)))
     print(intervals)
     print(intervals2)
     all_intervals.append(intervals2)

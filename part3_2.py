@@ -19,20 +19,20 @@ plt.plot([Y[0], Y[0]], [0, y[1]], color='r')
 y_theoretical = list()
 for yi in Y:
     y_theoretical.append((yi ** 3 + 1) / 2)
-plt.plot(Y, y_theoretical, 'o', label='Точечная теоретическая функция распределения')
 x_theoretical = np.linspace(-1, 1, 1000)
 plt.plot(x_theoretical, (x_theoretical ** 3 + 1) / 2, color='blue', label='Теоретическая функция распределения')
 plt.legend()
 
 
-max = 0
+d_plus = []
+d_minus = []
 for i in range(0, n):
-    if max < math.fabs(y_theoretical[i] - y[i]):
-       max = math.fabs(y_theoretical[i] - y[i])
+    d_plus.append((i / n) - ((Y[i]) ** 3 + 1) / 2)
+    d_minus.append((((Y[i]) ** 3 + 1) / 2) - ((i - 1) / n))
 
 
+my_lambda = (n ** 0.5) * max(max(d_plus), max(d_minus))
 table_lambda = 1.36 # a = 0.05
-my_lambda = (n ** 0.5) * max
 
 
 if my_lambda > table_lambda:
