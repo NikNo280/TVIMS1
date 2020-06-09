@@ -37,6 +37,16 @@ for ni in N:
 
     for i in range(3):
         intervals.append(((ni - 1) * Dy / xi_minus[i], (ni - 1) * Dy / xi_plus[i]))
+
+    chi_mass = sts.chi2(ni)
+    arr = chi_mass.rvs(100000)
+    xi_plus = []
+    xi_minus = []
+    for i in gamma:
+        temp = sts.mstats.mquantiles(arr, prob=[(1 - i) / 2, (1 + i) / 2])
+        xi_plus.append(temp[0])
+        xi_minus.append(temp[1])
+
     for i in range(3):
         intervals2.append((ni * D_theoretical / xi_minus[i], ni * D_theoretical / xi_plus[i]))
     all_intervals.append(intervals2)

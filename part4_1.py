@@ -39,6 +39,14 @@ for ni in N:
     for ti in T:
         intervals.append((My - np.sqrt(Dy) * ti / np.sqrt(ni),
                           My + np.sqrt(Dy) * ti / np.sqrt(ni)))
+
+    T = []
+    t_rv = sts.t(ni)
+    arr = t_rv.rvs(1000000)
+    for i in gamma:
+        tmp = sts.mstats.mquantiles(arr, prob=[1 - (1 - i) / 2])
+        T.append(tmp[0])
+    for ti in T:
         intervals2.append((My - np.sqrt(D_theoretical) * ti / np.sqrt(ni),
                            My + np.sqrt(D_theoretical) * ti / np.sqrt(ni)))
     print(intervals)
